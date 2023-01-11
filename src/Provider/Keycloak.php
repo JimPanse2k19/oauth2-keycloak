@@ -156,14 +156,13 @@ class Keycloak extends AbstractProvider
 
         // Starting with keycloak 18.0.0, the parameter redirect_uri is no longer supported on logout.
         // As of this version the parameter is called post_logout_redirect_uri. In addition to this
-        // a parameter id_token_hint has to be provided.
+        // a parameter id_token_hint can be provided.
         if ($this->validateGteVersion('18.0.0')) {
             if (isset($options['access_token']) === true) {
                 $accessToken = $options['access_token'];
-
                 $params['id_token_hint'] = $accessToken->getValues()['id_token'];
-                $params['post_logout_redirect_uri'] = $params['redirect_uri'];
             }
+            $params['post_logout_redirect_uri'] = $params['redirect_uri'];
 
             unset($params['redirect_uri']);
         }
